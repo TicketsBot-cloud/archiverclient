@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
 	"github.com/TicketsBot/common/encryption"
 	"github.com/TicketsBot/logarchiver/pkg/model"
 	v1 "github.com/TicketsBot/logarchiver/pkg/model/v1"
@@ -62,7 +63,7 @@ func (c *ArchiverClient) Get(ctx context.Context, guildId uint64, ticketId int) 
 
 		return transcript, nil
 	default:
-		return v2.Transcript{}, fmt.Errorf("Unknown version %d", version)
+		return v2.Transcript{}, fmt.Errorf("unknown version %d", version)
 	}
 }
 
@@ -81,5 +82,15 @@ func (c *ArchiverClient) Store(ctx context.Context, guildId uint64, ticketId int
 
 	data = encryption.Compress(data)
 
+	return c.retriever.StoreTicket(ctx, guildId, ticketId, data)
+}
+
+func (c *ArchiverClient) ImportTranscript(ctx context.Context, guildId uint64, ticketId int, data []byte) error {
+	data, err := encryption.Encrypt(c.key, data)
+	if err != nil {
+		return err
+	}
+
+	data = encryption.Compress(data)
 	return c.retriever.StoreTicket(ctx, guildId, ticketId, data)
 }

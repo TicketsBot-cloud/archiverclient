@@ -1,4 +1,4 @@
-module github.com/TicketsBot/archiverclient
+module github.com/TicketsBot-cloud/archiverclient
 
 go 1.22
 

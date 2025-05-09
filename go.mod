@@ -1,13 +1,15 @@
 module github.com/TicketsBot-cloud/archiverclient
 
-go 1.22
+go 1.22.0
 
-toolchain go1.22.4
+toolchain go1.24.2
+
+// replace github.com/TicketsBot-cloud/logarchiver => ../logarchiver
 
 require (
+	github.com/TicketsBot-cloud/gdl v0.0.0-20250509054940-2045fbe19c06
+	github.com/TicketsBot-cloud/logarchiver v0.0.0-20250509065654-20309348e667
 	github.com/TicketsBot/common v0.0.0-20240613013221-1e27eb8bfe37
-	github.com/TicketsBot/logarchiver v0.0.0-20241012220745-5f3ba17a5138
-	github.com/rxdn/gdl v0.0.0-20241012214045-890597169639
 )
 
 require (
@@ -28,9 +30,9 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/rs/xid v1.5.0 // indirect
-	golang.org/x/crypto v0.24.0 // indirect
+	golang.org/x/crypto v0.28.0 // indirect
 	golang.org/x/net v0.26.0 // indirect
-	golang.org/x/sync v0.7.0 // indirect
-	golang.org/x/sys v0.21.0 // indirect
-	golang.org/x/text v0.16.0 // indirect
+	golang.org/x/sync v0.8.0 // indirect
+	golang.org/x/sys v0.26.0 // indirect
+	golang.org/x/text v0.19.0 // indirect
 )

@@ -6,14 +6,14 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/TicketsBot-cloud/gdl/objects/channel"
+	"github.com/TicketsBot-cloud/gdl/objects/channel/message"
+	"github.com/TicketsBot-cloud/gdl/objects/guild"
+	"github.com/TicketsBot-cloud/gdl/objects/user"
+	"github.com/TicketsBot-cloud/logarchiver/pkg/model"
+	v1 "github.com/TicketsBot-cloud/logarchiver/pkg/model/v1"
+	v2 "github.com/TicketsBot-cloud/logarchiver/pkg/model/v2"
 	"github.com/TicketsBot/common/encryption"
-	"github.com/TicketsBot/logarchiver/pkg/model"
-	v1 "github.com/TicketsBot/logarchiver/pkg/model/v1"
-	v2 "github.com/TicketsBot/logarchiver/pkg/model/v2"
-	"github.com/rxdn/gdl/objects/channel"
-	"github.com/rxdn/gdl/objects/channel/message"
-	"github.com/rxdn/gdl/objects/guild"
-	"github.com/rxdn/gdl/objects/user"
 )
 
 type ArchiverClient struct {
@@ -21,7 +21,7 @@ type ArchiverClient struct {
 	key       []byte
 }
 
-var ErrNotFound = errors.New("Transcript not found")
+var ErrNotFound = errors.New("transcript not found")
 
 func NewArchiverClient(retriever Retriever, encryptionKey []byte) *ArchiverClient {
 	return &ArchiverClient{

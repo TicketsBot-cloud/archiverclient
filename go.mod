@@ -8,7 +8,7 @@ toolchain go1.24.2
 
 require (
 	github.com/TicketsBot-cloud/gdl v0.0.0-20250509054940-2045fbe19c06
-	github.com/TicketsBot-cloud/logarchiver v0.0.0-20250509065654-20309348e667
+	github.com/TicketsBot-cloud/logarchiver v0.0.0-20250514201320-d5141071a6eb
 	github.com/TicketsBot/common v0.0.0-20240613013221-1e27eb8bfe37
 )
 

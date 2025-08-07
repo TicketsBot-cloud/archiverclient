@@ -36,10 +36,11 @@ func (c *ArchiverClient) Get(ctx context.Context, guildId uint64, ticketId int) 
 		return v2.Transcript{}, err
 	}
 
-	body, err = encryption.Decompress(body)
-	if err != nil {
-		return v2.Transcript{}, err
-	}
+	// body, err = encryption.Decompress(body)
+	// if err != nil {
+	// 	fmt.Println(-2)
+	// 	return v2.Transcript{}, err
+	// }
 
 	body, err = encryption.Decrypt(c.key, body)
 	if err != nil {

@@ -36,15 +36,19 @@ func (c *ArchiverClient) Get(ctx context.Context, guildId uint64, ticketId int) 
 		return v2.Transcript{}, err
 	}
 
-	// body, err = encryption.Decompress(body)
-	// if err != nil {
-	// 	fmt.Println(-2)
-	// 	return v2.Transcript{}, err
-	// }
-
-	body, err = encryption.Decrypt(c.key, body)
-	if err != nil {
-		return v2.Transcript{}, err
+	decrypted, decryptErr := encryption.Decrypt(c.key, body)
+	if decryptErr == nil {
+		body = decrypted
+	} else {
+		decompressed, decompressErr := encryption.Decompress(body)
+		if decompressErr != nil {
+			return v2.Transcript{}, fmt.Errorf("failed to decrypt directly and decompress failed: decrypt_err=%v, decompress_err=%v", decryptErr, decompressErr)
+		}
+		
+		body, err = encryption.Decrypt(c.key, decompressed)
+		if err != nil {
+			return v2.Transcript{}, fmt.Errorf("decompression succeeded but decryption failed: %w", err)
+		}
 	}
 
 	version := model.GetVersion(body)

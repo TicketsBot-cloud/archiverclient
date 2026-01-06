@@ -23,6 +23,7 @@ const (
 	StatusInProgress Status = "in_progress"
 	StatusComplete   Status = "complete"
 	StatusFailed     Status = "failed"
+	StatusTimeout    Status = "timeout"
 )
 
 var ErrOperationNotFound = errors.New("operation not found")

@@ -90,12 +90,3 @@ func (c *ArchiverClient) Store(ctx context.Context, guildId uint64, ticketId int
 	return c.retriever.StoreTicket(ctx, guildId, ticketId, data)
 }
 
-func (c *ArchiverClient) ImportTranscript(ctx context.Context, guildId uint64, ticketId int, data []byte) error {
-	data, err := encryption.Encrypt(c.key, data)
-	if err != nil {
-		return err
-	}
-
-	data = encryption.Compress(data)
-	return c.retriever.StoreTicket(ctx, guildId, ticketId, data)
-}

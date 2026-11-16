@@ -141,7 +141,9 @@ func (r *ProxyRetriever) DeleteTicket(ctx context.Context, guildId uint64, ticke
 
 	defer res.Body.Close()
 
-	if res.StatusCode != http.StatusNoContent {
+	if res.StatusCode == http.StatusNotFound {
+		return ErrNotFound
+	} else if res.StatusCode != http.StatusNoContent {
 		var decoded proxyErrorResponse
 		if err := json.NewDecoder(res.Body).Decode(&decoded); err != nil {
 			return err

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/TicketsBot-cloud/gdl/objects/channel"
 	"github.com/TicketsBot-cloud/gdl/objects/channel/message"
@@ -22,6 +23,16 @@ type ArchiverClient struct {
 }
 
 var ErrNotFound = errors.New("transcript not found")
+
+// The deployed archiver can answer a missing object with a 500 carrying S3's wording instead of a 404.
+func IsNotFound(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	msg := strings.ToLower(err.Error())
+	return errors.Is(err, ErrNotFound) || strings.Contains(msg, "key does not exist") || strings.Contains(msg, "no such key")
+}
 
 func NewArchiverClient(retriever Retriever, encryptionKey []byte) *ArchiverClient {
 	return &ArchiverClient{
@@ -74,7 +85,10 @@ func (c *ArchiverClient) Get(ctx context.Context, guildId uint64, ticketId int) 
 
 func (c *ArchiverClient) Store(ctx context.Context, guildId uint64, ticketId int, messages []message.Message) error {
 	transcript := v2.NewTranscript(messages, v2.NoopRetriever[user.User], v2.NoopRetriever[channel.Channel], v2.NoopRetriever[guild.Role])
+	return c.StoreTranscript(ctx, guildId, ticketId, transcript)
+}
 
+func (c *ArchiverClient) StoreTranscript(ctx context.Context, guildId uint64, ticketId int, transcript v2.Transcript) error {
 	data, err := json.Marshal(transcript)
 	if err != nil {
 		return err
